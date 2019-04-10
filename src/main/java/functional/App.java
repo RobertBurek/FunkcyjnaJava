@@ -2,6 +2,7 @@ package functional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -11,103 +12,37 @@ public class App {
 
     public static void main(String[] args) {
 
-//        //1
-//        Runnable cos1 = new Runnable() {
-//            @Override
-//            public void run() {
-//                System.out.println("AAA");
-//            }
-//        };
-//
-//        //2
-//        Runnable cos2 = () -> {
-//            System.out.println("AAA");
-//        };
-//
-//        //3
-//        Runnable cos3 = () -> System.out.println("AAA");
-//
-//        //1
-//        Comparable<String> comparable1 = new Comparable<String>() {
-//            @Override
-//            public int compareTo(String o) {
-//                return 0;
-//            }
-//        };
-//
-//        //2
-//        Comparable<String> comparable2 = (String o) -> 0;
-//
-//        //3
-//        Comparable<String> comparable3 = o -> 0;
-//
-//
-//        //1
-//        Movable m1 = new Movable() {
-//            @Override
-//            public int move(String direction) {
-//                return 11;
-//            }
-//        };
-//
-//        //2
-//        Movable m2 = direction -> 11;
-//
-//        test("pierwsza", cos1);
-//        test("druga", cos2);
-
         List<Student> students = createData();
 
-//        Student robert = students.get(1);
-//        Student ktos = robert.changeIndexNumber("654321");
-//        System.out.println(ktos);
 
-//          pełna implementacja metody test z interfejsu funcyjnego Predicate
-/*
-        Predicate<Student> isRobert = new Predicate<Student>() {
-            @Override
-            public boolean test(Student student) {
-                return (student.getName()).equals("Robert");
-            }
-        };
-        Predicate<Student> over30 = new Predicate<Student>() {
-            @Override
-            public boolean test(Student student) {
-                return (student.getAge() > 30);
-            }
-        };
-*/
-
-        Predicate<Student> isRobert = student -> (student.getName()).equals("Robert");
         Predicate<Student> over30 = student -> (student.getAge() > 30);
 
+//        pełny zapis interfejsu funkcyjnego Consumer
+//        Consumer<Student> consumer = new Consumer<Student>() {
+//            @Override
+//            public void accept(Student student) {
+//                System.out.println(student.getName());
+//            }
+//        };
 
-//        tradycyjnie poprzez osobne metody
-//        a połączenie tych obu wyszukiwań wymagałoby dodatkowej metody
-        System.out.println("Tradycyjnie poprzez osobne metody");
-        System.out.println(getRoberty(students));
-        System.out.println(getOver30(students));
+//        lambda Consumer
+        Consumer<Student> printStudentName = student -> System.out.print(student.getName());
+        Consumer<Student> printStudentNameUppercase =
+                student -> System.out.println(" -> " + student.getName().toUpperCase());
 
-//        poprzez zdefiniowane predicate  isRobert i over30
-        System.out.println("Wyniki poprzez predicate isRobert i over30");
-        System.out.println(filterStudents(students, isRobert));
-        System.out.println(filterStudents(students, over30));
+        System.out.println("Lista studentów powyżej 30 lat");
+        System.out.println(filterStudents(students,over30));
+        System.out.println("Imiona tych studentów");
+        consumerStudents(filterStudents(students,over30),printStudentName);
+        System.out.println("Imiona tych studentów oraz WIELKIMI LITERAMI");
+        consumerStudents(filterStudents(students,over30),printStudentName.andThen(printStudentNameUppercase));
 
-//        połączenie obu warunków AND to jedna dodatkowa linia kodu
-        Predicate<Student> and = isRobert.and(over30);
-        System.out.println("Wyniki połączonych warunków AND  isRobert i over30");
-        System.out.println(filterStudents(students,and));
+    }
 
-//        połączenie obu warunków OR to jedna dodatkowa linia kodu
-        Predicate<Student> or = isRobert.or(over30);
-        System.out.println("Wyniki połączonych warunków OR  isRobert i over30");
-        System.out.println(filterStudents(students,or));
-
-//        negacja warunku NEGATE to jedna dodatkowa linia kodu
-        Predicate<Student> negate = isRobert.negate();
-        System.out.println("Wyniki połączonych warunków NEGATE isRobert");
-        System.out.println(filterStudents(students,negate));
-
+    private static void consumerStudents(List<Student> students, Consumer<Student> consumer){
+        for (Student s: students){
+            consumer.accept(s);
+        }
     }
 
     //    jedna metoda z Predicate
@@ -115,27 +50,6 @@ public class App {
         List<Student> result = new ArrayList<>();
         for (Student s : students) {
             if (predicate.test(s)) {
-                result.add(s);
-            }
-        }
-        return result;
-    }
-
-    //    osobne metody getOver30 i getRoberty
-    private static List<Student> getOver30(List<Student> students) {
-        List<Student> result = new ArrayList<>();
-        for (Student s : students) {
-            if (s.getAge() > 30) {
-                result.add(s);
-            }
-        }
-        return result;
-    }
-
-    private static List<Student> getRoberty(List<Student> students) {
-        List<Student> result = new ArrayList<>();
-        for (Student s : students) {
-            if (s.getName().equals("Robert")) {
                 result.add(s);
             }
         }
@@ -152,6 +66,4 @@ public class App {
         return result;
     }
 
-//    public static void test(String name, Runnable a) {
-//    }
 }
