@@ -83,6 +83,7 @@ public class App {
 
 
 //        tradycyjnie poprzez osobne metody
+//        a połączenie tych obu wyszukiwań wymagałoby dodatkowej metody
         System.out.println("Tradycyjnie poprzez osobne metody");
         System.out.println(getRoberty(students));
         System.out.println(getOver30(students));
@@ -91,6 +92,21 @@ public class App {
         System.out.println("Wyniki poprzez predicate isRobert i over30");
         System.out.println(filterStudents(students, isRobert));
         System.out.println(filterStudents(students, over30));
+
+//        połączenie obu warunków AND to jedna dodatkowa linia kodu
+        Predicate<Student> and = isRobert.and(over30);
+        System.out.println("Wyniki połączonych warunków AND  isRobert i over30");
+        System.out.println(filterStudents(students,and));
+
+//        połączenie obu warunków OR to jedna dodatkowa linia kodu
+        Predicate<Student> or = isRobert.or(over30);
+        System.out.println("Wyniki połączonych warunków OR  isRobert i over30");
+        System.out.println(filterStudents(students,or));
+
+//        negacja warunku NEGATE to jedna dodatkowa linia kodu
+        Predicate<Student> negate = isRobert.negate();
+        System.out.println("Wyniki połączonych warunków NEGATE isRobert");
+        System.out.println(filterStudents(students,negate));
 
     }
 
