@@ -8,10 +8,17 @@ final public class Index {
     private String indexNumber;
 
     public Index(String indexNumber) {
-        this.indexNumber = getIndexNumber();
+        this.indexNumber = indexNumber;
     }
 
     public String getIndexNumber() {
         return indexNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Index{" +
+                "indexNumber='" + indexNumber + '\'' +
+                '}';
     }
 }
