@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
  * Created by Robert Burek
@@ -12,7 +13,7 @@ public class App {
 
     public static void main(String[] args) {
 
-        List<Student> students = createData();
+//        List<Student> students = createData();
 
 
         Predicate<Student> over30 = student -> (student.getAge() > 30);
@@ -26,28 +27,46 @@ public class App {
 //        };
 
 //        lambda Consumer
-        Consumer<Student> printStudentName = student -> System.out.print(student.getName());
+        Consumer<Student> printStudentName = student -> System.out.print(student.getName() + " ");
         Consumer<Student> printStudentNameUppercase =
                 student -> System.out.println(" -> " + student.getName().toUpperCase());
 
+//        pełny zapis interfejsu funkcyjnego Supplier
+//        Supplier<Student> getStudent = new Supplier<Student>() {
+//            @Override
+//            public Student get() {
+//                return new Student("xxx",32,"999999");
+//            }
+//        };
+
+//        System.out.println("Lista studentów powyżej 30 lat");
+//        System.out.println(filterStudents(students,over30));
+//        System.out.println("Imiona tych studentów");
+//        consumerStudents(filterStudents(students,over30),printStudentName);
+//        System.out.println("Imiona tych studentów oraz WIELKIMI LITERAMI");
+//        consumerStudents(filterStudents(students,over30),printStudentName.andThen(printStudentNameUppercase));
+
+        Supplier<Student> getStudent = () -> new Student("xxx", 32, "999999");
+//        Supplier<List<Student>> studentSupplier = () -> createData();
+        Supplier<List<Student>> supplyPredefinedStudent = () -> createData();
+
         System.out.println("Lista studentów powyżej 30 lat");
-        System.out.println(filterStudents(students,over30));
-        System.out.println("Imiona tych studentów");
-        consumerStudents(filterStudents(students,over30),printStudentName);
+        System.out.println(filterStudents(supplyPredefinedStudent, over30));
+        System.out.print("Imiona tych studentów: ");
+        consumerStudents(filterStudents(supplyPredefinedStudent, over30), printStudentName);
+        System.out.println("");
         System.out.println("Imiona tych studentów oraz WIELKIMI LITERAMI");
-        consumerStudents(filterStudents(students,over30),printStudentName.andThen(printStudentNameUppercase));
+        consumerStudents(filterStudents(supplyPredefinedStudent, over30), printStudentName.andThen(printStudentNameUppercase));
+        System.out.println("Wszyscy studenci:");
+        System.out.println(supplyPredefinedStudent.get());
 
     }
 
-    private static void consumerStudents(List<Student> students, Consumer<Student> consumer){
-        for (Student s: students){
-            consumer.accept(s);
-        }
-    }
-
-    //    jedna metoda z Predicate
-    private static List<Student> filterStudents(List<Student> students, Predicate<Student> predicate) {
+    //     metoda z Supplier
+    private static List<Student> filterStudents(Supplier<List<Student>> supplier, Predicate<Student> predicate) {
         List<Student> result = new ArrayList<>();
+
+        List<Student> students = supplier.get();
         for (Student s : students) {
             if (predicate.test(s)) {
                 result.add(s);
@@ -55,6 +74,23 @@ public class App {
         }
         return result;
     }
+
+    private static void consumerStudents(List<Student> students, Consumer<Student> consumer) {
+        for (Student s : students) {
+            consumer.accept(s);
+        }
+    }
+
+    //    jedna metoda z Predicate
+//    private static List<Student> filterStudents(List<Student> students, Predicate<Student> predicate) {
+//        List<Student> result = new ArrayList<>();
+//        for (Student s : students) {
+//            if (predicate.test(s)) {
+//                result.add(s);
+//            }
+//        }
+//        return result;
+//    }
 
 
     private static List<Student> createData() {
