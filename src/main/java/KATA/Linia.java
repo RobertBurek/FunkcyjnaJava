@@ -16,6 +16,10 @@ final public class Linia {
     }
 
 
+    public int getLinia(int i) {
+        return linia[i];
+    }
+
     @Override
     public String toString() {
         return "Linia{" +

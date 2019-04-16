@@ -12,7 +12,7 @@ public class solvePuzzle {
     static int[][] tab={{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
 
 
-    public solvePuzzle(tablica l) {
+    public solvePuzzle(Tablica l) {
     }
 
     public static void w(int i) {
@@ -50,26 +50,14 @@ public class solvePuzzle {
 
             Predicate<Linia> sprawdzLinie = new Predicate<Linia>() {
                 @Override
-                public boolean test(Linia linia) {
-                    for (int i = 0; i < 4; ++i) {
-                        if (linia[i] == 1) {
+                public boolean test(Linia l) {
+                    for (int i = 0; i < 3; ++i) {
+                        if (l.linia[i] == 1) {
                             int juzJest = 1;
                         }
-
                     }
                     return false;
                 }
-
-            };
-
-            Predicate<Linia> sprawdzLinie2 = (Predicate<Linia>) (linia, wiersz, kolumna, wartosc) -> {
-                for (int i=0;i<4;++i){
-                    if (linia[i]==wartosc) {
-                        int juzJest=1;
-                    }
-
-                }
-                return false;
             };
 
 
