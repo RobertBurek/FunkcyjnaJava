@@ -1,5 +1,7 @@
 package KATA;
 
+import java.util.function.Predicate;
+
 /**
  * Created by Robert Burek
  */
@@ -40,7 +42,39 @@ public class solvePuzzle {
     }
 
         public static void main (String[]args){
-            rysuj();
+
+        rysuj();
+        Linia L00 = new Linia();
+
+
+
+            Predicate<Linia> sprawdzLinie = new Predicate<Linia>() {
+                @Override
+                public boolean test(Linia linia) {
+                    for (int i=0;i<4;++i){
+                        if (linia[i]==1) {
+                            int juzJest=1;
+                        }
+
+                    }
+                    return false;
+                }
+
+                @Override
+                public boolean test(Linia linia,int wiersz, int kolumna, int wartosc) {
+                    for (int i=0;i<4;++i){
+                        if (linia[i]==wartosc) {
+                            int juzJest=1;
+                        }
+
+                    }
+                    return false;
+                }
+            };
+
+
+
+
         }
     }
 
