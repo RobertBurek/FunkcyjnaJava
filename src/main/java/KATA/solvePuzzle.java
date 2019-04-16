@@ -43,6 +43,13 @@ public class solvePuzzle {
 
         public static void main (String[]args){
 
+        Tablica tab1 = new Tablica(new int[][]{{4, 4, 4, 4}, {1, 2, 3, 4}, {5, 5, 5, 5}, {1, 2, 3, 4}});
+        for(int i=0;i<tab1.getTablica(3,3).length;++i){
+                System.out.print(tab1.getTablica(3, 3)[i]+" ");
+            }
+            System.out.println("");
+        tab=(new int[][]{{4, 4, 4, 4}, {1, 2, 3, 4}, {5, 5, 5, 5}, {1, 2, 3, 4}});
+        war = new int[]{0,1,2,3,0,1,2,3,3,2,1,0,3,2,1,0};
         rysuj();
         Linia L00 = new Linia();
 
