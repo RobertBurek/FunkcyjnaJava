@@ -7,7 +7,7 @@ import java.util.Arrays;
  */
 final public class Linia {
 
-    int[] linia;
+    int[] linia={0,0,0,0};
 
     public Linia() { }
 
