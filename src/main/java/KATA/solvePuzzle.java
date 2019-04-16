@@ -51,25 +51,25 @@ public class solvePuzzle {
             Predicate<Linia> sprawdzLinie = new Predicate<Linia>() {
                 @Override
                 public boolean test(Linia linia) {
-                    for (int i=0;i<4;++i){
-                        if (linia[i]==1) {
-                            int juzJest=1;
+                    for (int i = 0; i < 4; ++i) {
+                        if (linia[i] == 1) {
+                            int juzJest = 1;
                         }
 
                     }
                     return false;
                 }
 
-                @Override
-                public boolean test(Linia linia,int wiersz, int kolumna, int wartosc) {
-                    for (int i=0;i<4;++i){
-                        if (linia[i]==wartosc) {
-                            int juzJest=1;
-                        }
+            };
 
+            Predicate<Linia> sprawdzLinie2 = (Predicate<Linia>) (linia, wiersz, kolumna, wartosc) -> {
+                for (int i=0;i<4;++i){
+                    if (linia[i]==wartosc) {
+                        int juzJest=1;
                     }
-                    return false;
+
                 }
+                return false;
             };
 
 
