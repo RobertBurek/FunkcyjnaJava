@@ -53,7 +53,9 @@ public class solvePuzzle {
         rysuj();
         Linia L00 = new Linia();
 
-
+        Tablica inna = new Tablica();
+            System.out.println(inna.toString());
+            System.out.println(tab1.toString());
 
             Predicate<Linia> sprawdzLinie = new Predicate<Linia>() {
                 @Override
