@@ -54,6 +54,54 @@ public class App {
         Consumer<String> print = text -> System.out.println(text);
         Function<Student, String> getStudentName = student -> student.getName();
 
+        IntPredicate predicateInteger =new IntPredicate() {
+            @Override
+            public boolean test(int value) {
+                return false;
+            }
+        };
+
+        DoublePredicate predicateDouble = new DoublePredicate() {
+            @Override
+            public boolean test(double value) {
+                return false;
+            }
+        };
+
+        LongPredicate predicateLong = new LongPredicate() {
+            @Override
+            public boolean test(long value) {
+                return false;
+            }
+        };
+
+        IntConsumer consumerInt = new IntConsumer() {
+            @Override
+            public void accept(int value) {
+
+            }
+        };
+
+        //  np po wieku zwaracamy studenta
+        IntFunction<Student> getAge = new IntFunction<Student>() {
+            @Override
+            public Student apply(int value) {
+                return null;
+            }
+        };
+
+        //  np  po studencie zwracamy wiek
+        ToIntFunction<Student > getAgeOver = new ToIntFunction<Student>() {
+            @Override
+            public int applyAsInt(Student value) {
+                return value.getAge();
+            }
+        };
+
+        List<Student> students2 = createData();
+        for (Student s: students2)
+        System.out.println("Imie: " + s.getName()+ " wiek z ToIntFunction: " + getAgeOver.applyAsInt(s)+ " można tak:" +
+                s.getAge());
 
         BiFunction<String, Student, Integer> test = new BiFunction<String, Student, Integer>() {
             @Override
