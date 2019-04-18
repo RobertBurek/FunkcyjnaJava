@@ -54,6 +54,7 @@ public class App {
         Consumer<String> print = text -> System.out.println(text);
         Function<Student, String> getStudentName = student -> student.getName();
 
+
         BiFunction<String, Student, Integer> test = new BiFunction<String, Student, Integer>() {
             @Override
             public Integer apply(String s, Student student) {
