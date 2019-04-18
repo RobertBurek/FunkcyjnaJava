@@ -49,10 +49,36 @@ public class App {
 //        Supplier<List<Student>> studentSupplier = () -> createData();
 
 
-        Supplier<List<Student>> supplyPredefinedStudent = () -> createData();
+        //Supplier<List<Student>> supplyPredefinedStudent = () -> createData();
+        Supplier<List<Student>> supplyPredefinedStudent = App::createData;
+
         Predicate<Student> over30 = student -> (student.getAge() > 30);
-        Consumer<String> print = text -> System.out.println(text);
-        Function<Student, String> getStudentName = student -> student.getName();
+
+        //Consumer<String> print = text -> System.out.println(text);
+        Consumer<String> print = System.out::println;
+
+        //Function<Student, String> getStudentName = student -> student.getName();
+        Function<Student, String> getStudentName = Student::getName;
+
+        //Consumer<String> stringConsumer = (String x) -> App.testmee(x);
+        Consumer<String> stringConsumer = App::testmee;
+        Runnable xxx = () -> App.testmee("xxx"); //brak metody referencyjnej, brak po lewej argumentu do parametrów
+                                                    // wywołania tej metody
+
+
+        //pełny zapis interfejsu BitFunction
+//        BiFunction<Student, String, Student> changeIndex = new BiFunction<Student, String, Student>() {
+//            @Override
+//            public Student apply(Student student, String indexNumber) {
+//                return student.changeIndexNumber(indexNumber);
+//            }
+//        };
+
+        //lambda zapis BitFunction
+//        BiFunction<Student, String, Student> changeIndex = (student, indexNumber) -> student.changeIndexNumber(indexNumber);
+
+        //zapis referencyjny BitFunction
+        BiFunction<Student, String, Student> changeIndex = Student::changeIndexNumber;
 
         IntPredicate predicateInteger =new IntPredicate() {
             @Override
@@ -187,4 +213,7 @@ public class App {
         return result;
     }
 
+    private static void testmee(String x){
+
+    }
 }
