@@ -34,9 +34,6 @@ final public class Student {
     }
 
     public Optional<Index> getIndeks() {
-        //Optional.of(this.index);  - jesteśmy pewni że indeks nie będzie null
-        //Optional.of(null); - opakowanie null - błędne wykorzystanie Optional zwraca null
-        //Optional.empty(); - zwrócenie pustego Optional
         return Optional.ofNullable(this.index);
     }
 
