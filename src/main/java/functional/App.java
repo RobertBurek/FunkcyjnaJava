@@ -23,35 +23,29 @@ public class App {
 
 //        consumerStudentsNew(filterStudents(supplyPredefinedStudent, over30), getStudentName, print);
 
-        List<Student> students = supplyPredefinedStudent.get();
+//       supplyPredefinedStudent.get().stream().filter(over30).map(getStudentName).forEach(print);
 
-       // students.stream().filter(over30).map(getStudentName).forEach(print);
-//        powyższy stream jest do wykorzystania tylko raz, tylko raz można przeiterować,
-//         próba kolejnego użycia tego strumienia daje wyjątek IllegalStateException
-//           co poniżej udowniłem
-//        Stream<Student> studentStream= students.stream();
-//        studentStream.filter(over30).map(getStudentName).forEach(print);
-//        studentStream.forEach(student -> student.getAge());
+//        1) budowa streama z predefiniowanych wartości, poprzez deklarowanie danych
+        Stream.of("A", "B", "C", "D", "E", "F").forEach(print);
 
-        // students.stream().filter(over30).map(getStudentName).forEach(print);
-        // zapis powyżej mógłby wyglądać w sposób tradycyjny tak jak poniżej
-//        List<Student> data = createData();
-//        for(Student s: data) {
-//            if(s.getAge()>30) {
-//                String name = s.getName();
-//                System.out.println(name);
-//            }
-//        }
+//       2) budowa streama na kolekcji
+        List<Student> studentList = createData();
+        Stream<Student> studentStream = studentList.stream();
+        studentStream.filter(over30).map(getStudentName).forEach(print);
 
-        students.stream().filter(over30).map(getStudentName).forEach(print);
+//       3) generowanie streama na podstawie SUPPLIERa - losowe 10 wyników double
+        Stream.generate(() -> Math.random()).limit(10).forEach(System.out::println);
 
-        System.out.println("");
+//       4) nieskończony (tutaj 20 elementów) strumien na postawie iterate
+        Stream.iterate(0, i -> i + 2).limit(20).forEach(System.out::println);
 
-        System.out.println("Imiona wszystkich studentów z wykorzystaniem STREAMa: ");
-        students.stream().map(getStudentName).forEach(print);
-        System.out.println("");
-        System.out.println("Wiek wszystkich studentów z wykorzystaniem STREAMa: ");
-        students.stream().map(getStudentAge).forEach(printWiek);
+//       5) strumienia prymitywów LONG, DOUBLE (metoda range - bez ostatniej wartości)
+        IntStream.rangeClosed(5, 100).filter(i -> i % 2 == 0).forEach(System.out::println);
+
+//        6) zmodyfikowana metoda createDataStream() pozwala stworzyć streama
+        Stream<Student> streamStudent = createDataStream();
+        streamStudent.forEach(System.out::println);
+
 
     }
 
@@ -73,6 +67,14 @@ public class App {
         return result;
     }
 
+//    modyfikacja metody aby zwracała nie liste a streama
+    private static Stream<Student> createDataStream() {
+        Student pawel = new Student("Paweł", 31, "123456");
+        Student robert = new Student("Robert", 24, "223344");
+        Student monika = new Student("Monika", 36);
+        Student robert1 = new Student("Robert", 33, "555555");
+        return Stream.of(pawel,robert,monika,robert1);
+    }
 
     private static List<Student> createData() {
         List<Student> result = new ArrayList<>();
