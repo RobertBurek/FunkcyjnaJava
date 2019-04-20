@@ -14,6 +14,7 @@ public class App {
 //        List<Student> students = createData();
 
 
+
         //       Predicate<Student> over30 = student -> (student.getAge() > 30);
 
 //        pełny zapis interfejsu funkcyjnego Consumer
