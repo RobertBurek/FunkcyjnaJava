@@ -17,17 +17,6 @@ public class App {
         System.out.println("Imiona wszystkich studentów: ");
         createDataStream().filter(over30).map(getStudentName).forEach(print);
 
-//     pełny zapis FILTER z implementacją metody test z interfejsu predicate
-//        createDataStream().filter(new Predicate<Student>() {
-//            @Override
-//            public boolean test(Student student) {
-//                return student.getName().equals("Robert");
-//            }
-//        }).forEach(System.out::println);
-
-        createDataStream().filter(student -> student.getName().equals("Robert")).forEach(System.out::println);
-
-//        można odfiltrować drugim filtrem
         createDataStream().filter(student -> student.getName().equals("Robert")).filter(over30).forEach(System.out::println);
 
 
@@ -38,7 +27,7 @@ public class App {
         Student robert = new Student("Robert", 24, "223344");
         Student monika = new Student("Monika", 36);
         Student robert1 = new Student("Robert", 33, "555555");
-        return Stream.of(pawel,robert,monika,robert1);
+        return Stream.of(pawel, robert, monika, robert1);
     }
 
 }
