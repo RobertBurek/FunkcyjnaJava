@@ -1,6 +1,5 @@
 package functional;
 
-import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -22,41 +21,6 @@ public class App {
         createDataStream()
                 .map(getStudentName)
                 .sorted()
-                .forEach(System.out::println);
-
-        // 1
-        System.out.println("Imiona studentów po MAP1: ");
-        createDataStream()
-                .filter(student -> student.getName().startsWith("Robert"))
-                .filter(over30)
-                .map(getStudentName)
-                .map(String::toUpperCase)
-                .forEach(print);
-
-        // 2
-        System.out.println("Imiona studentów po MAP2: ");
-        createDataStream()
-                .filter(over30)
-                .map(Student::getName)// zdefiniowanie funcji zajmuje więcej miejsca niż sama logika funcji,
-                // zatem można się jej pozbyć - getStudentName
-                .filter(name -> name.startsWith("Robert"))
-                .map(String::toUpperCase)
-                .forEach(print);
-
-        // 3 wypisanie indeksów studenta
-        createDataStream()
-                .map(student -> student.getIndeks())
-                .filter(optionalIndex -> optionalIndex.isPresent())
-                .map(optionalIndex -> optionalIndex.get())
-                .map(index -> index.getIndexNumber())
-                .forEach(print);
-
-        // 4 zapis referencyjny //3
-        createDataStream()
-                .map(Student::getIndeks)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(Index::getIndexNumber)
                 .forEach(print);
     }
 
