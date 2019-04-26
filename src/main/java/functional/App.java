@@ -24,36 +24,6 @@ public class App {
                 .sorted()
                 .forEach(print);
 
-        System.out.println("Pierwsze (findFirst) imię speniajace warunek: ");
-        Optional<String> first = createDataStream()
-                .filter(over30)
-                .findFirst()
-                .map(getStudentName);
-        System.out.println(first.get());
-
-        System.out.println("Pierwszy student w wieku 24: ");
-        System.out.println(createDataStream()
-                .filter(student -> student.getAge() == 24)
-                .findFirst().get().getName());
-
-        System.out.println("Pierwsze (findFirst) imię speniajace warunek: ");
-        createDataStream()
-                .filter(over30)
-                .findFirst()
-                .map(getStudentName);
-        System.out.println(first.get());
-
-        System.out.println("Prawda czy warunek spełniony czy istnieje Robert B  (anyMatch): ");
-        Predicate<String> isRobert = s -> s.equals("Robert B");
-        System.out.println(createDataStream()
-                .map(getStudentName)
-                .anyMatch(isRobert));
-
-        System.out.println("Prawda czy warunek spełniony dla wszystkich age > 20 (allMatch/noneMatch): ");
-        System.out.println(createDataStream()
-                .map(Student::getAge)
-                .allMatch(age -> age > 20));
-
     }
 
     private static Stream<Student> createDataStream() {
