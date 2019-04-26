@@ -1,6 +1,7 @@
 package functional;
 
 import java.util.Optional;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -23,6 +24,32 @@ public class App {
                 .map(getStudentName)
                 .sorted()
                 .forEach(print);
+
+        System.out.println("Suma 10 losowych liczb: ");
+        System.out.println(Stream.generate(Math::random).limit(10).reduce(0.0, new BinaryOperator<Double>() {
+            @Override
+            public Double apply(Double aDouble, Double aDouble2) {
+                return aDouble + aDouble2;
+            }
+        }));
+
+        System.out.println("Najstarszy student ma tyle lat: ");
+        Function<Student, Integer> studentAge = student -> student.getAge();
+        System.out.println(createDataStream().map(studentAge).reduce(new BinaryOperator<Integer>() {
+            @Override
+            public Integer apply(Integer integer, Integer integer2) {
+                return integer > integer2 ? integer : integer2;
+            }
+        }).get());
+
+        System.out.println("Najmłodszy student ma tyle lat: ");
+        Optional<Integer> minimumAge = createDataStream()
+                .map(studentAge)
+                .reduce((integer, integer2) -> integer < integer2 ? integer : integer2);
+                //reduce(Integer::min); metoda na prymitywach
+                //reduce(Integer::max); metoda na prymitywach
+                //reduce(Integer::sum); metoda na prymitywach
+        minimumAge.ifPresent(System.out::println);
 
     }
 
