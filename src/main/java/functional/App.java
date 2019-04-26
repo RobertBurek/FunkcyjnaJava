@@ -17,11 +17,22 @@ public class App {
         Consumer<Object> print = System.out::println;
         Function<Student, String> getStudentName = Student::getName;
 
+        //na marginesie
+        StringBuilder stringBuilder = new StringBuilder("");
+
         System.out.println("Imiona wszystkich studentów alfabetycznie ");
         createDataStream()
                 .map(getStudentName)
                 .sorted()
-                .forEach(print);
+                .forEach(new Consumer<String>() {    //pełny zapis consumera
+                             @Override
+                             public void accept(String s) {
+                                 stringBuilder.append(s); //na marginesie
+                             }
+                        });
+                // lambda forEach >>  forEach(s -> stringBuilder.append(s);});
+                // referencja forEach >> forEach(stringBuilder::append);
+        System.out.println(stringBuilder); //na marginesie
     }
 
     private static Stream<Student> createDataStream() {
