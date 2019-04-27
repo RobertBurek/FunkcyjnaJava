@@ -1,9 +1,15 @@
 package functional;
 
+import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.groupingBy;
 
 /**
  * Created by Robert Burek
@@ -16,12 +22,41 @@ public class App {
         Predicate<Student> over30 = student -> (student.getAge() > 30);
         Consumer<Object> print = System.out::println;
         Function<Student, String> getStudentName = Student::getName;
+        Function<Student, Integer> getStudentAge = Student::getAge;
 
         System.out.println("Imiona wszystkich studentów alfabetycznie: ");
         createDataStream()
                 .map(getStudentName)
                 .sorted()
                 .forEach(print);
+
+        //lista stworzona przez collect Collectors
+        List<Integer> collectAgeStudent =
+                createDataStream().map(getStudentAge).sorted().collect(Collectors.toList());
+        for (Integer s : collectAgeStudent) System.out.println(s);
+
+        //połączone elementy strumienia w jeden string
+        String allAges = createDataStream()
+                .map(getStudentAge)
+                .map(age -> age.toString())
+                .collect(Collectors.joining(", "));
+        System.out.println(allAges);
+
+        //pogrupowana mapa ze strima
+        Map<Integer, List<Student>> mapaAgeStudent = createDataStream().collect(groupingBy(getStudentAge));
+        mapaAgeStudent.forEach(new BiConsumer<Integer, List<Student>>() {
+            @Override
+            public void accept(Integer integer, List<Student> students) {
+                System.out.print(integer + " : ");
+                students.stream().map(getStudentName).forEach(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) {
+                        System.out.print(s + ", ");
+                    }
+                });
+                System.out.println("");
+            }
+        });
 
     }
 
@@ -31,8 +66,10 @@ public class App {
         Student monika = new Student("Monika", 36);
         Student robert1 = new Student("Robert C", 33, "555555");
         Student ania = new Student("Anna", 40, "564534");
-        Student zenek = new Student("Zenon", 28, "435688");
-        return Stream.of(pawel, robert, monika, robert1, ania, zenek);
+        Student zenek = new Student("Zenon", 24, "435688");
+        Student zenek1 = new Student("Zenon D", 33, "554771");
+        Student marian = new Student("Marian", 24, "6698596");
+        return Stream.of(pawel, robert, monika, robert1, ania, zenek, zenek1, marian);
     }
 
 }
