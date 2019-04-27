@@ -30,34 +30,6 @@ public class App {
                 .sorted()
                 .forEach(print);
 
-        //lista stworzona przez collect Collectors
-        List<Integer> collectAgeStudent =
-                createDataStream().map(getStudentAge).sorted().collect(Collectors.toList());
-        for (Integer s : collectAgeStudent) System.out.println(s);
-
-        //połączone elementy strumienia w jeden string
-        String allAges = createDataStream()
-                .map(getStudentAge)
-                .map(age -> age.toString())
-                .collect(Collectors.joining(", "));
-        System.out.println(allAges);
-
-        //pogrupowana mapa ze strima
-        Map<Integer, List<Student>> mapaAgeStudent = createDataStream().collect(groupingBy(getStudentAge));
-        mapaAgeStudent.forEach(new BiConsumer<Integer, List<Student>>() {
-            @Override
-            public void accept(Integer integer, List<Student> students) {
-                System.out.print(integer + " : ");
-                students.stream().map(getStudentName).forEach(new Consumer<String>() {
-                    @Override
-                    public void accept(String s) {
-                        System.out.print(s + ", ");
-                    }
-                });
-                System.out.println("");
-            }
-        });
-
     }
 
     private static Stream<Student> createDataStream() {
