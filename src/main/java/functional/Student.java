@@ -1,13 +1,14 @@
 package functional;
 
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
  * Created by Robert Burek
  */
 
-final public class Student {
+final public class Student implements Comparable<Student> {
 
     private String name;
     private int age;
@@ -52,5 +53,23 @@ final public class Student {
                 ", age=" + age +
                 ", index=" + index +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return index.equals(student.index);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(index);
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        return this.name.compareTo(o.getName());
     }
 }
