@@ -1,8 +1,7 @@
 package functional;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.*;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -21,6 +20,41 @@ public class App {
 
         System.out.println("Lista studentów i ich wiek: ");
         createDataStream().forEach(printAll);
+
+        //pełny zapis
+        createDataStream().map(getStudentAge).mapToInt(new ToIntFunction<Integer>() {
+            @Override
+            public int applyAsInt(Integer value) {
+                return value.intValue();
+            }
+        }).forEach(System.out::print);
+        System.out.println("");
+
+        //lambda
+        createDataStream().map(getStudentAge).mapToInt(value -> value.intValue()).forEach(System.out::print);
+        System.out.println("");
+
+        //referencyjny
+        createDataStream().map(getStudentAge).mapToInt(Integer::intValue).forEach(System.out::print);
+        System.out.println("");
+
+        IntStream intStream = createDataStream().map(getStudentAge).mapToInt(Integer::intValue);
+        intStream.map(new IntUnaryOperator() {
+            @Override
+            public int applyAsInt(int operand) {
+                return 0;
+            }
+        });
+
+        System.out.println("Posortowany wiek studentów (prymitywów int)");
+        createDataStream().map(getStudentAge).mapToInt(Integer::intValue).sorted().forEach(new IntConsumer() {
+            @Override
+            public void accept(int value) {
+                System.out.print(value + ", ");
+            }
+        });
+
+        //Long i double - identycznie
 
     }
 
